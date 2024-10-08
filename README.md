@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Apotti Patient Standalone Create Observations
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Apotti Patient Standalone Create Observations is a Next.js application that allows patients to create and manage their vital sign observations through a FHIR interface. The application provides a user-friendly interface for patients to input their data and view their information securely.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Authentication**: Users can sign in using OAuth2 to access their patient data.
+- **Patient Information**: Displays detailed patient information, including name, ID, date of birth, and address.
+- **Observation Form**: Patients can enter vital sign observations, which are then submitted to a FHIR server.
+- **Responsive Design**: Built with Material UI for a modern, responsive user experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [Next.js](https://nextjs.org/) - A React framework for server-side rendering and static site generation.
+- [Material UI](https://mui.com/) - A popular React UI framework that provides pre-designed components.
+- [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript that compiles to plain JavaScript.
+- [Axios](https://axios-http.com/) - A promise-based HTTP client for making API requests.
+- [FHIR](https://www.hl7.org/fhir/) - Fast Healthcare Interoperability Resources standard for health data exchange.
 
-## Learn More
+## Installation
 
-To learn more about Next.js, take a look at the following resources:
+To get started with the project, follow these steps:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone https://github.com/yourusername/apotti-patient-standalone-createobservations-nextjs.git
+   cd apotti-patient-standalone-createobservations-nextjs
