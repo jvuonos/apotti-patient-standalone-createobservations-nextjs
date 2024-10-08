@@ -1,101 +1,166 @@
-import Image from "next/image";
+// app/page.tsx
+"use client";
 
-export default function Home() {
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Button, Container } from '@mui/material'; // Material UI components
+import Image from 'next/image'; // Next.js image component
+import Link from 'next/link'; // Next.js link component
+import PatientObservationForm from './components/PatientObservationForm';
+import './styles/HomePage.css'; // Import HomePage styles
+
+const Page: React.FC = () => {
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [patientId, setPatientId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('accessToken');
+    const patientId = urlParams.get('patientId');
+
+    if (accessToken && patientId) {
+      setAccessToken(accessToken);
+      setPatientId(patientId);
+    }
+  }, []);
+
+  const handleSignIn = () => {
+    const authorizeUrl = `${process.env.NEXT_PUBLIC_FHIR_SERVER_A}/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/callback&scope=openid%20patient.read%20patient/Observation.c`;
+    window.location.href = authorizeUrl;
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <Container>
+      {/* Logo Section */}
+      <Box sx={{ textAlign: 'center', my: 4 }}>
+        <Image src="/apottilabs.png" alt="Apotti Labs Logo" width={200} height={100} />
+      </Box>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Welcome Section */}
+      <Typography 
+        variant="h4" 
+        align="center" 
+        gutterBottom 
+        sx={{ color: '#333' }} // Darker text color for visibility
+      >
+        Welcome to Apotti Patient Standalone Create Observations
+      </Typography>
+
+      {/* Sign In Section */}
+      <Box sx={{ textAlign: 'center', my: 4 }}>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={handleSignIn}
+          sx={{ padding: '10px 20px' }}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Sign In
+        </Button>
+      </Box>
+
+      {/* Display Patient Data and Observation Form if Signed In */}
+      {accessToken && patientId ? (
+        <Box sx={{ textAlign: 'center', mt: 4 }}>
+          <Typography variant="h6">Patient ID: {patientId}</Typography>
+
+          {/* Link to Patient Data */}
+          <Box sx={{ mt: 2 }}>
+            <Button 
+              variant="outlined" 
+              color="primary" 
+              component={Link} 
+              href={`/patient/${patientId}?accessToken=${accessToken}`}
+            >
+              View Patient Data
+            </Button>
+          </Box>
+
+          {/* Observation Form */}
+          <Box sx={{ mt: 4 }}>
+            <PatientObservationForm accessToken={accessToken} patientId={patientId} />
+          </Box>
+        </Box>
+      ) : (
+        <Typography 
+          variant="body1" 
+          align="center" 
+          sx={{ mt: 4, color: '#333' }} // Darker text color for visibility
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          Please sign in to access your data.
+        </Typography>
+      )}
+    </Container>
   );
-}
+};
+
+export default Page;
+
+
+
+
+// // app/page.tsx
+// "use client";
+
+// import './styles/HomePage.css'; // Import HomePage styles
+// import React, { useEffect, useState } from 'react';
+// import PatientObservationForm from './components/PatientObservationForm';
+// import Image from 'next/image';
+// import Link from 'next/link';
+
+// console.log('inside page.tsx');
+
+// const Page: React.FC = () => {
+//   const [accessToken, setAccessToken] = useState<string | null>(null);
+//   const [patientId, setPatientId] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     const urlParams = new URLSearchParams(window.location.search);
+//     const accessToken = urlParams.get('accessToken');
+//     const patientId = urlParams.get('patientId');
+
+//     if (accessToken && patientId) {
+//       setAccessToken(accessToken);
+//       setPatientId(patientId);
+//     }
+//   }, []);
+
+//   const handleSignIn = () => {
+//     const authorizeUrl = `${process.env.NEXT_PUBLIC_FHIR_SERVER_A}/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/callback&scope=openid%20patient.read%20patient/Observation.c`;
+//     //const authorizeUrl = `${process.env.NEXT_PUBLIC_FHIR_SERVER_A}/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&redirect_uri=http://localhost:3000/api/auth/callback&scope=openid%20patient.read%20patient/Observation.c%20fhirUser`;
+  
+//     window.location.href = authorizeUrl;
+//   };
+  
+  
+//   return (
+//     <div>
+//       <div className="container">
+//         {/* Image on top of the welcome screen */}
+//         <div className="image-container">
+//           <Image src="/apottilabs.png" alt="Apotti Labs Logo" width={200} height={100} />
+//         </div>
+
+//         <h1>Welcome to Apotti Patient Standalone Create Observations</h1>
+//         <button className="sign-in-button" onClick={handleSignIn}>Sign In</button>
+
+//         {accessToken && patientId ? (
+//           <div>
+//             <h2>Patient ID: {patientId}</h2>
+//             {/* Update link to point to the correct patient page */}
+//             <Link href={`/patient/${patientId}?accessToken=${accessToken}`}>
+//               View Patient Data
+//             </Link>
+//             {/* Render the observation form or other components here */}
+//             <PatientObservationForm accessToken={accessToken} patientId={patientId} />
+//           </div>
+//         ) : (
+//           <div className="sign-in-message">
+//     Please sign in to access your data.
+// </div>
+
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Page;

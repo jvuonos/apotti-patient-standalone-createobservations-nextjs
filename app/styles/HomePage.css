@@ -1,0 +1,45 @@
+/* /app/styles/HomePage.css */
+body {
+    background: white;
+    background-color: rgb(var(--foreground-rgb));
+  }
+  
+  .container {
+    padding: 20px;
+    text-align: center; /* Center the content */
+    background-color: white;
+  }
+  
+  .image-container {
+    margin-bottom: 20px; /* Space between the image and the text */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: black; /* Ensuring header text is black */
+  }
+  
+  .sign-in-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sign-in-button:hover {
+    background-color: #45a049;
+  }
+  .sign-in-message {
+    font-size: 1.5em;  /* Increase font size for better visibility */
+    color: #333;       /* Darker color for contrast */
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
+    padding: 10px;     /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+  
