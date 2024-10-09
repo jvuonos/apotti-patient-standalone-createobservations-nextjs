@@ -1,3 +1,33 @@
+// // app/layout.tsx
+// import React from 'react';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import './globals.css'; // If you have any global styles
+
+// // Create a Material UI theme
+// const theme = createTheme({
+//   palette: {
+//     background: {
+//       default: '#ffffff', // Set your desired background color
+//     },
+//   },
+// });
+
+// // Layout component that wraps all pages
+// const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+//   return (
+//     <html lang="en">
+//       <body>
+//         <ThemeProvider theme={theme}>
+//           {children}
+//         </ThemeProvider>
+//       </body>
+//     </html>
+//   );
+// };
+
+// export default RootLayout;
+
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
